@@ -22,3 +22,27 @@ INSERT INTO products(product_name,department_name,price,stock_quantity) values("
 INSERT INTO products(product_name,department_name,price,stock_quantity) values("Mobile","Electronics",40,10);
 INSERT INTO products(product_name,department_name,price,stock_quantity) values("Computers","Electronics",23.50,10);
 INSERT INTO products(product_name,department_name,price,stock_quantity) values("HeadPhones","Electronics",10,20);
+
+-- This SP displays all the data in the DB
+ DELIMITER //
+ CREATE PROCEDURE  readData()
+    BEGIN
+	SELECT name from items;
+END//
+delimiter ;
+
+-- This SP selects the quantity on depending the ID of the product
+ DELIMITER //
+ CREATE PROCEDURE checkQuantity(IN id INT)
+ BEGIN
+  select stock_quantity from products where item_id=id;
+ END // 
+ DELIMITER ;
+
+-- This SP updates the quantity once the products are sold
+  DELIMITER //
+ CREATE PROCEDURE updateQuantity(IN id INT,IN quantity INT)
+ BEGIN
+  update products set stock_quantity=quantity where item_id=id;
+ END // 
+ DELIMITER ;
