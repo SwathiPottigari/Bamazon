@@ -47,6 +47,9 @@ function selectedAction(action) {
         case "View Low Inventory":
             displayLowStock();
             break;
+        case "Add to Inventory":
+            addMore();
+            break;
     };
 };
 
@@ -60,6 +63,37 @@ function displayProducts() {
 }
 
 // This function displays the stocks with low quantity
-function displayLowStock(){
-
+function displayLowStock() {
+    connection.query("call displayLowStock", function (error, respDB) {
+        if (error) throw error;
+        console.table(respDB[0]);
+        closeConnection();
+    });
 };
+
+// This adds the more quantity to the items
+function addMore() {
+
+    inquirer.prompt([
+        {
+            type: "number",
+            message: "Enter the ID of the Product",
+            name: "productID"
+        },
+        {
+            type: "number",
+            message: "Enter the quantity you want to add",
+            name: "productStock"
+        }
+    ]).then(function (inqRes) {
+        connection.query("call checkQuantity(?)", [inqRes.productID], function (error, respDB) {
+            if (error) throw error;
+            var quantity = inqRes.productStock + respDB[0][0].quantity;
+            connection.query("call updateQuantity(?,?)", [inqRes.productID, quantity], function (err,respDB) {
+                if (error) throw error;
+                console.log(respDB);
+            });
+            closeConnection();
+        });
+    });
+}
