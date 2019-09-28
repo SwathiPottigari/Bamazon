@@ -71,5 +71,3 @@ function sellItems(id, quantity, cost) {
     });
 };
 
-
-

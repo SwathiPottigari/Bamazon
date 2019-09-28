@@ -46,3 +46,13 @@ delimiter ;
   update products set stock_quantity=quantity where item_id=id;
  END // 
  DELIMITER ;
+
+
+-- This Sp displays the items with stock quantity less than 5
+ DELIMITER //
+Create procedure displayLowStock()
+begin
+select item_id as ID,product_name as Product,stock_quantity as Quantity from bamazon.products where stock_quantity<5;
+end //
+delimiter ;
+
