@@ -18,6 +18,30 @@ function closeConnection() {
     connection.end();
 };
 
+
+// Asks the user if he wants to continue
+function askIfContinuing() {
+
+    inquirer.prompt(
+        {
+            type: "confirm",
+            message: "Do you want to continue?",
+            name: "continue"
+        }
+    ).then(function (response) {
+        console.log(response);
+        if (response.continue === true) {
+            disPlayItemsForSale();
+        }
+        else {
+            closeConnection();
+        }
+
+    });
+}
+
+
+
 // This connects to the DB and calls the function to display the items
 connection.connect(function (err) {
     if (err) throw err;
@@ -51,7 +75,7 @@ function askTheCustomer() {
             if (error) throw error;
             if (resDB[0][0].quantity < inqResponse.productQuantity) {
                 console.log("Insufficient quantity!");
-                closeConnection();
+                askIfContinuing();
             }
             else {
                 var quantityReamining = resDB[0][0].quantity - inqResponse.productQuantity;
@@ -67,7 +91,7 @@ function sellItems(id, quantity, cost) {
     connection.query("call updateQuantity(?,?)", [id, quantity], function (error, resDB) {
         if (error) throw error;
         console.log("Total cost = " + cost);
-        closeConnection();
+        askIfContinuing();
     });
 };
 

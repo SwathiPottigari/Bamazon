@@ -24,6 +24,28 @@ connection.connect(function (err) {
     displayListOptions();
 });
 
+// Asks the user if he wants to continue
+function askIfContinuing() {
+
+    inquirer.prompt(
+        {
+            type: "confirm",
+            message: "Do you want to continue?",
+            name: "continue"
+        }
+    ).then(function (response) {
+        console.log(response);
+        if (response.continue === true) {
+            displayListOptions();
+        }
+        else {
+            closeConnection();
+        }
+
+    });
+}
+
+
 // This function displays the list of menu options to the manager
 function displayListOptions() {
     inquirer.prompt([
@@ -61,7 +83,7 @@ function displayProducts() {
     connection.query("select item_id as ID,product_name as Product,price as Price,stock_quantity as Quantity from products; ", function (error, respDB) {
         if (error) throw error;
         console.table(respDB);
-        closeConnection();
+        askIfContinuing();
     });
 }
 
@@ -70,7 +92,7 @@ function displayLowStock() {
     connection.query("call displayLowStock", function (error, respDB) {
         if (error) throw error;
         console.table(respDB[0]);
-        closeConnection();
+        askIfContinuing();
     });
 };
 
@@ -96,7 +118,7 @@ function addMore() {
                 if (error) throw error;
                 console.log(respDB);
             });
-            closeConnection();
+            askIfContinuing();
         });
     });
 }
@@ -133,7 +155,7 @@ function addProduct() {
         }, function (err, respDB) {
             if (err) throw err;
             console.log("Successfully added the product");
-            closeConnection();
+            askIfContinuing();
         });
     });
 };
