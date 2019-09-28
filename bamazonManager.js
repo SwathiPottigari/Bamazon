@@ -50,6 +50,9 @@ function selectedAction(action) {
         case "Add to Inventory":
             addMore();
             break;
+        default:
+            addProduct();
+            break;
     };
 };
 
@@ -89,7 +92,7 @@ function addMore() {
         connection.query("call checkQuantity(?)", [inqRes.productID], function (error, respDB) {
             if (error) throw error;
             var quantity = inqRes.productStock + respDB[0][0].quantity;
-            connection.query("call updateQuantity(?,?)", [inqRes.productID, quantity], function (err,respDB) {
+            connection.query("call updateQuantity(?,?)", [inqRes.productID, quantity], function (err, respDB) {
                 if (error) throw error;
                 console.log(respDB);
             });
@@ -97,3 +100,40 @@ function addMore() {
         });
     });
 }
+
+// This function allows the manager to add ew product
+function addProduct() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "In which department do you want to add the product?",
+            name: "prodDepartment"
+        },
+        {
+            type: "input",
+            message: "What product do you want to add?",
+            name: "prodName"
+        },
+        {
+            type: "number",
+            message: "What is the price of the product?",
+            name: "prodPrice"
+        },
+        {
+            type: "number",
+            message: "Quantity of the product?",
+            name: "prodQuantity"
+        }
+    ]).then(function (inqRes) {
+        connection.query("insert into products set ?", {
+            product_name: inqRes.prodName,
+            department_name: inqRes.prodDepartment,
+            price: inqRes.prodPrice,
+            stock_quantity: inqRes.prodQuantity
+        }, function (err, respDB) {
+            if (err) throw err;
+            console.log("Successfully added the product");
+            closeConnection();
+        });
+    });
+};
