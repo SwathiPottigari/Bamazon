@@ -41,9 +41,9 @@ delimiter ;
 
 -- This SP updates the quantity once the products are sold
   DELIMITER //
- CREATE PROCEDURE updateQuantity(IN id INT,IN quantity INT)
+ CREATE PROCEDURE updateQuantity(IN id INT,IN quantity INT,IN productCost float)
  BEGIN
-  update products set stock_quantity=quantity where item_id=id;
+  update products set stock_quantity=quantity ,product_sales=product_sales+productCost where item_id=id;
  END // 
  DELIMITER ;
 
@@ -56,3 +56,10 @@ select item_id as ID,product_name as Product,stock_quantity as Quantity from bam
 end //
 delimiter ;
 
+CREATE TABLE departments(
+    department_id INT NOT NULL,
+    department_name VARCHAR(50),
+    over_head_costs INT,
+);
+
+alter table products add column product_sales float not null ;

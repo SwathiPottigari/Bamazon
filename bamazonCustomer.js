@@ -88,7 +88,7 @@ function askTheCustomer() {
 
 // This function updates as the products are sold
 function sellItems(id, quantity, cost) {
-    connection.query("call updateQuantity(?,?)", [id, quantity], function (error, resDB) {
+    connection.query("call updateQuantity(?,?,?)", [id, quantity,cost], function (error, resDB) {
         if (error) throw error;
         console.log("Total cost = " + cost);
         askIfContinuing();
