@@ -57,9 +57,22 @@ end //
 delimiter ;
 
 CREATE TABLE departments(
-    department_id INT NOT NULL,
+    department_id INT NOT NULL AUTO_INCREMENT,
     department_name VARCHAR(50),
     over_head_costs INT,
+    primary key (department_id)
 );
 
 alter table products add column product_sales float not null ;
+
+insert into departments(department_name,over_head_costs) values("Stationary",30);
+insert into departments(department_name,over_head_costs) values("Footwear",35);
+insert into departments(department_name,over_head_costs) values("Electronics",80);
+
+delimiter //
+create procedure displayDepartments()
+begin
+ select d.department_id,d.department_name,d.over_head_costs,sum(p.product_sales),sum(p.product_sales)-d.over_head_costs as profit from  bamazon.departments as d left join bamazon.products as p on d.department_name=p.department_name
+ group by d.department_name;
+ end //
+ delimiter ;
