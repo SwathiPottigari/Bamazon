@@ -113,11 +113,11 @@ function addMore() {
         connection.query("call checkQuantity(?)", [inqRes.productID], function (error, respDB) {
             if (error) throw error;
             var quantity = inqRes.productStock + respDB[0][0].quantity;
-            connection.query("call updateQuantity(?,?)", [inqRes.productID, quantity], function (err, respDB) {
+            connection.query("call updateQuantity(?,?,?)", [inqRes.productID, quantity,0], function (err, respDB) {
                 if (error) throw error;
                 console.log(respDB);
-            });
-            askIfContinuing();
+                askIfContinuing();
+            });            
         });
     });
 }
@@ -150,7 +150,8 @@ function addProduct() {
             product_name: inqRes.prodName,
             department_name: inqRes.prodDepartment,
             price: inqRes.prodPrice,
-            stock_quantity: inqRes.prodQuantity
+            stock_quantity: inqRes.prodQuantity,
+            product_sales:0            
         }, function (err, respDB) {
             if (err) throw err;
             console.log("Successfully added the product");

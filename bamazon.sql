@@ -27,11 +27,12 @@ INSERT INTO products(product_name,department_name,price,stock_quantity) values("
 
 -- This SP displays all the data in the DB
  DELIMITER //
- CREATE PROCEDURE  readData()
+ CREATE PROCEDURE  displayItems()
     BEGIN
-	SELECT name from items;
+	SELECT item_id as ID,product_name as Product,price as Price from products;
 END//
 delimiter ;
+
 
 -- This SP selects the quantity on depending the ID of the product
  DELIMITER //
