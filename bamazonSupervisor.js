@@ -29,7 +29,6 @@ function askIfContinuing() {
             name: "continue"
         }
     ).then(function (response) {
-        console.log(response);
         if (response.continue === true) {
             disPlayItemsForSale();
         }
@@ -71,9 +70,35 @@ function selectedAction(action) {
     };
 };
 
+// This function displays the departments sale table
 function displayProductsByDep() {
     connection.query("call displayDepartments()", function (err, respDB) {
         console.table(respDB[0]);
-        askIfContinuing
+        askIfContinuing();
+    });
+};
+
+// This function creates the new department
+function createDepartment(){
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Which department do you want to create?",
+            name: "department"
+        },
+        {
+            type: "number",
+            message: "What is the overhead cost?",
+            name: "overHeadCost"
+        }
+    ]).then(function(inqRes){
+        connection.query("insert into departments set ?",{
+            department_name:inqRes.department,
+            over_head_costs:inqRes.overHeadCost
+        },function(err,respDB){
+            if(err) throw err;
+            console.log("Successfully created a department");
+            askIfContinuing();
+        });
     });
 };

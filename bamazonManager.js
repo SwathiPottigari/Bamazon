@@ -34,7 +34,6 @@ function askIfContinuing() {
             name: "continue"
         }
     ).then(function (response) {
-        console.log(response);
         if (response.continue === true) {
             displayListOptions();
         }
