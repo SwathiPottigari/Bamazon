@@ -45,7 +45,7 @@
 3. If `Create New Department` is selected,it allows the supervisor to create a new department.
 
 ### DEMO
-
+! [Demo](./images/demo.gif "Demo")
 
 
  
