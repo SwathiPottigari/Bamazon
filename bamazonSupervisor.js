@@ -30,7 +30,7 @@ function askIfContinuing() {
         }
     ).then(function (response) {
         if (response.continue === true) {
-            disPlayItemsForSale();
+            displayListOptions();
         }
         else {
             closeConnection();
