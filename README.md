@@ -45,7 +45,7 @@
 3. If `Create New Department` is selected,it allows the supervisor to create a new department.
 
 ### DEMO
-! [Demo](https://github.com/SwathiPottigari/Bamazon/blob/master/images/demo.gif "Demo")
+![Demo](https://github.com/SwathiPottigari/Bamazon/blob/master/images/demo.gif "Demo")
 
 
  
