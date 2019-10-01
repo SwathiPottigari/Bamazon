@@ -38,7 +38,7 @@ delimiter ;
  DELIMITER //
  CREATE PROCEDURE checkQuantity(IN id INT)
  BEGIN
-  select stock_quantity from products where item_id=id;
+  select stock_quantity as quantity,price from products where item_id=id;
  END // 
  DELIMITER ;
 

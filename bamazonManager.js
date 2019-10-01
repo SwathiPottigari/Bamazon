@@ -115,7 +115,7 @@ function addMore() {
             var quantity = inqRes.productStock + respDB[0][0].quantity;
             connection.query("call updateQuantity(?,?,?)", [inqRes.productID, quantity,0], function (err, respDB) {
                 if (error) throw error;
-                console.log(respDB);
+                console.log("Successfully added more Quantity");
                 askIfContinuing();
             });            
         });
